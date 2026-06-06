@@ -41,7 +41,7 @@ def analyze(body: RequestBody):
         ]
 
         latencies = [r["latency_ms"] for r in rows]
-        uptimes = [r["uptime"] for r in rows]
+        uptimes = [r["uptime_pct"] for r in rows]
 
         result[region] = {
             "avg_latency": round(sum(latencies) / len(latencies), 2),
