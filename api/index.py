@@ -27,7 +27,10 @@ class RequestBody(BaseModel):
     regions: list[str]
     threshold_ms: int
 
-
+@app.get("/")
+def home():
+    return {"hello": "world"}
+    
 @app.post("/")
 def analyze(body: RequestBody):
 
