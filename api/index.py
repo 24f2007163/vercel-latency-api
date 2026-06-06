@@ -1,6 +1,6 @@
 # api/index.py
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from pathlib import Path
@@ -13,8 +13,9 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_methods=["POST"],
-    allow_headers=["*"]
+    allow_methods=["POST", "GET", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization"],
+    expose_headers=["Access-Control-Allow-Origin"],
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,10 +28,17 @@ class RequestBody(BaseModel):
     regions: list[str]
     threshold_ms: int
 
+
 @app.get("/")
 def home():
     return {"hello": "world"}
-    
+
+
+@app.options("/{path:path}")
+def options_handler(path: str):
+    return Response()
+
+
 @app.post("/")
 def analyze(body: RequestBody):
 
