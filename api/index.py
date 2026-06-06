@@ -42,19 +42,19 @@ def options_handler(path: str):
 @app.post("/")
 def analyze(body: RequestBody):
 
-    result = {}
-
+    result = {"regions": {}}
+    
     for region in body.regions:
-
+    
         rows = [
             r for r in DATA
             if r["region"] == region
         ]
-
+    
         latencies = [r["latency_ms"] for r in rows]
         uptimes = [r["uptime_pct"] for r in rows]
-
-        result[region] = {
+    
+        result["regions"][region] = {
             "avg_latency": round(sum(latencies) / len(latencies), 2),
             "p95_latency": round(float(np.percentile(latencies, 95)), 2),
             "avg_uptime": round(sum(uptimes) / len(uptimes), 4),
