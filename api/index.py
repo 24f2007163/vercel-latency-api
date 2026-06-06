@@ -3,6 +3,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from pathlib import Path
 
 import json
 import numpy as np
@@ -16,7 +17,9 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
-with open("telemetry.json") as f:
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+with open(BASE_DIR / "telemetry.json", "r") as f:
     DATA = json.load(f)
 
 
